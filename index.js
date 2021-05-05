@@ -1,3 +1,4 @@
+// import fetch from 'node-fetch';
 const video = document.getElementById('webcam');
 const liveView = document.getElementById('liveView');
 const demosSection = document.getElementById('demos');
@@ -37,16 +38,17 @@ function predictWebcam(){
     return true;
 }
 
-const model_url = './maskDetector_tfjs/model.json';
+const model_url = 'https://raw.githubusercontent.com/ivanPerez100/maskDetector/main/maskDetector_tfjs/model.json?token=ALDERLP2L5ZFDYPANXIDTO3ASLMMG' //'./maskDetector_tfjs/model.json';
 
 var model = undefined;
 // model =  await tf.loadGraphModel('./maskDetector_tfjs/model.json', 
 // {onProgress: p => console.log(p)})
 console.log("loading model");
-await tf.loadGraphModel(model_url, 
+
+tf.loadGraphModel(model_url, 
 {onProgress: p => console.log(p)}).then( function (loadedModel) {
     console.log("loaded model")
     model = loadedModel;
     demosSection.classList.remove('invisible');
+    console.log("done");
 });
-console.log("done");
