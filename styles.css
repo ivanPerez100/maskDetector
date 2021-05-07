@@ -11,8 +11,6 @@ h1{
 
 video{
     display: block;
-    /* width: 100vw;
-    height: 100vh; */
 }
 
 section{
@@ -40,30 +38,18 @@ section{
     position: absolute;
     padding: 5px;
     font-size: 12px;
-}
-
-.highlighter p{
-    padding: 5px;
-    font-size: 30px;
+    background-color: rgba(255, 111, 0, 0.85);
+    color: #FFF;
+    border: 1px dashed rgba(255, 255, 255, 0.7);
     z-index: 2;
-    color: white;
-    position: absolute;
 }
 
 .highlighter{
     border: 2px solid rgb(206, 94, 94);
+    /* background: rgba(0, 255, 0, 0.25); */
     box-shadow: 0 0 50px 0 white;
     z-index: 1;
-    position: fixed;
-    display: grid;
-    place-content: center;
-}
-
-.background{
-    width: 100%;
-    position: fixed;
-    z-index: -1000;
-    left: 0;
-    right: 0;
-    background: black;
+    position: absolute;
+    /* display: grid;
+    place-content: center; */
 }
