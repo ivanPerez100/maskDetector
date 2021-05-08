@@ -14,10 +14,17 @@ function getUserMediaSupported(){
         navigator.mediaDevices.getUserMedia)
 }
 
+async function getDevices(){
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    alert(devices);
+}
+
 if (getUserMediaSupported()){
     enableWebcamButton.addEventListener('click', enableCam);
+    getDevices();
 }else{
     console.warn('getUserMedia() is not supported by your browser');
+    alert("Camera not supported");
 }
 
 function enableCam(event){
