@@ -120,6 +120,6 @@ console.log("loading model");
 tf.loadGraphModel(model_url).then( function (loadedModel) {
     console.log("loaded model")
     model = loadedModel;
-    demosSection.classList.remove('invisible');
+    webcamButton.classList.remove('invisible');
     console.log("done");
 });
