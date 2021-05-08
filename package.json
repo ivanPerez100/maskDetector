@@ -1,5 +1,28 @@
 {
+  "name": "maskdetector",
+  "version": "1.0.0",
+  "description": "Online Real Time Mask Detector",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "jsdom": "^16.5.3",
     "node-fetch": "^2.6.1"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivanPerez100/maskDetector.git"
+  },
+  "author": "Ivan Perez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivanPerez100/maskDetector/issues"
+  },
+  "homepage": "https://github.com/ivanPerez100/maskDetector#readme"
 }
