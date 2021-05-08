@@ -2,6 +2,7 @@ const video = document.getElementById('webcam');
 const liveView = document.getElementById('liveView');
 const demosSection = document.getElementById('demos');
 const enableWebcamButton = document.getElementById("webcamButton");
+const cameraOptions = document.querySelector(".video-options>select");
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 const vh = Math.max(document.documentElement.clientHeight|| 0, window.innerHeight || 0);
 var vidWidth = 0;
@@ -11,13 +12,15 @@ var yStart = 0;
 
 function getUserMediaSupported(){
     return !!(navigator.mediaDevices && 
-        navigator.mediaDevices.getUserMedia)
+        navigator.mediaDevices.getUserMedia())
 }
 
 async function getDevices(){
     const devices = await navigator.mediaDevices.enumerateDevices();
     alert(devices);
 }
+
+const getCameraSelection
 
 if (getUserMediaSupported()){
     enableWebcamButton.addEventListener('click', enableCam);
