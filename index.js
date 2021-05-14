@@ -17,6 +17,7 @@ function getUserMediaSupported(){
 
 async function getDevices(){
     const devices =  await navigator.mediaDevices.enumerateDevices();
+    alert(devices);
     return devices;
 }
 
