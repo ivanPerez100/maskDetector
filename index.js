@@ -2,7 +2,7 @@ const video = document.getElementById('webcam');
 const liveView = document.getElementById('liveView');
 const demosSection = document.getElementById('demos');
 const enableWebcamButton = document.getElementById("webcamButton");
-const cameraOptions = document.querySelector(".video-options>select");
+const loadingMessage = document.getElementById("progress");
 const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 const vh = Math.max(document.documentElement.clientHeight|| 0, window.innerHeight || 0);
 var vidWidth = 0;
@@ -12,15 +12,12 @@ var yStart = 0;
 
 function getUserMediaSupported(){
     return !!(navigator.mediaDevices && 
-        navigator.mediaDevices.getUserMedia())
+        navigator.mediaDevices.getUserMedia({video : true}))
 }
 
 async function getDevices(){
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    alert(devices);
+    return await navigator.mediaDevices.enumerateDevices();
 }
-
-const getCameraSelection
 
 if (getUserMediaSupported()){
     enableWebcamButton.addEventListener('click', enableCam);
@@ -32,10 +29,12 @@ if (getUserMediaSupported()){
 
 function enableCam(event){
     if(!model){
+        alert("Wait until the Model is fully loaded and for button to no loger be opaque!");
         return;
     }
 
     event.target.classList.add('removed');
+    loadingMessage.classList.add('removed');
 
     const constraints = {
         video: true
@@ -45,15 +44,17 @@ function enableCam(event){
         let $video = document.querySelector('video');
         $video.srcObject = stream;
         $video.onloadedmetadata = () => {
-            vidHeight = $video.videoHeight;
-            vidWidth = $video.videoWidth;
+            vidHeight = $video.clientHeight;
+            vidWidth = $video.clientWidth;
+            const imageSize = vidHeight * vidWidth;
             xStart = Math.floor((vw - vidWidth) / 10);
-            yStart = (Math.floor( (vh - vidHeight) / 5) )>=0 ? (Math.floor((vh - vidHeight) / 5)):0;
+            yStart = (Math.floor( (vh - vidHeight) / 8) )>=0 ? (Math.floor((vh - vidHeight) / 8)):0;
             $video.play();
             $video.addEventListener('loadeddata', predictWebcam);
         }
     });
 }
+
 
 var children = [];
 
@@ -63,7 +64,6 @@ function predictWebcam(){
     });
 }
 
-const imageSize = vidHeight * vidWidth;
 var classProbTreshold = 40;
 
 async function detect(imgToPredict){
@@ -89,21 +89,24 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
     for( let i = 0; i< children.length; i++){
         liveView.removeChild(children[i]);
     }
+
+    // vidHeight = video.clientHeight;
+    // vidWidth = video.clientWidth;
+
     children.splice(0);
     for( let i= 0; i < predictionScores.length; i++){
         const minY = (predictionBoxes[i * 4] * vidHeight - yStart).toFixed(0);
-        const minX = (predictionBoxes[i * 4 + 1] * vidWidth - xStart).toFixed(0);
+        const minX = (predictionBoxes[i * 4 + 1] * vidWidth + video.offsetLeft).toFixed(0);
         const maxY = (predictionBoxes[i * 4 + 2] * vidHeight).toFixed(0);
-        const maxX = (predictionBoxes[i * 4 + 3] * vidWidth).toFixed(0);
+        const maxX = (predictionBoxes[i * 4 + 3] * vidWidth + video.offsetLeft).toFixed(0);
         const score = predictionScores[i * 3] * 100;
         const width_ = (maxX-minX).toFixed(0);
         const height_ = (maxY-minY).toFixed(0);
         if (score > classProbTreshold && score < 100){
-            console.log(score);
             const p = document.createElement('p');
             p.innerText = classLabels[(predictionClasses[i]) - 1] + " - with " +
             Math.round(score) + " % confidence";
-            p.style = 'margin-left: ' + minX + 'px; margin-top: ' +
+            p.style = 'margin-left: ' + (minX) + 'px; margin-top: ' +
             (minY - 10) + "px; width: " +
             (width_ - 10) + "px; top: 0; left: 0;";
 
@@ -117,19 +120,22 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
             liveView.appendChild(p);
             children.push(highlighter);
             children.push(p);
+            
         }
     }
 }
 
 const model_url = './maskDetector_tfjs/model.json';
-
 var model = undefined;
 
 console.log("loading model");
 
-tf.loadGraphModel(model_url).then( function (loadedModel) {
-    console.log("loaded model")
-    model = loadedModel;
-    webcamButton.classList.remove('invisible');
-    console.log("done");
-});
+await tf.loadGraphModel(model_url, 
+    {onProgress: p => loadingMessage.innerHTML = 
+        (p * 100) + '% of Model Loaded'}).then( function(loadedModel){
+            console.log("done");
+            model = loadedModel;
+            webcamButton.classList.remove('invisible');
+        }
+
+);

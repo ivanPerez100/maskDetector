@@ -1,21 +1,36 @@
+
 body{
     font-family: Arial, Helvetica, sans-serif;
-    margin: 2em;
     color: #3d3d3d;
 }
 
 h1{
-    font-style: italic;
+    font-weight: 100;
     color: darkslategray;
+    margin: auto;
+    text-align: center;
+    padding: 10px;
 }
+
+.display{
+    display: grid;
+    height: 100%;
+}
+
 
 video{
     display: block;
 }
 
 section{
-    opacity: 1;
+    opacity: 2;
     transition: opacity 500ms ease-in-out;
+}
+
+.background{
+    margin: 0 auto 15px;
+    max-width: 100%;
+    max-height: 100vh;
 }
 
 .removed{
@@ -50,6 +65,6 @@ section{
     box-shadow: 0 0 50px 0 white;
     z-index: 1;
     position: absolute;
-    /* display: grid;
-    place-content: center; */
+    display: grid;
+    place-content: center;
 }
