@@ -18,8 +18,10 @@ function getUserMediaSupported(){
 async function getDevices(){
     const devices =  await navigator.mediaDevices.enumerateDevices();
     alert(devices);
-    return devices;
+    // return devices;
 }
+
+getDevices();
 
 if (getUserMediaSupported()){
     enableWebcamButton.addEventListener('click', enableCam);
