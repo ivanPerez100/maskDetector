@@ -12,7 +12,7 @@ var yStart = 0;
 
 function getUserMediaSupported(){
     return !!(navigator.mediaDevices && 
-        navigator.mediaDevices.getUserMedia({video : true}))
+        navigator.mediaDevices.getUserMedia)
 }
 
 async function getDevices(){
