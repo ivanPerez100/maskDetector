@@ -10,7 +10,6 @@
     with their respective method headers and comments below.
 */
 
-
 // First, we need to get elements from our HTML code 
 const video = document.getElementById('webcam');
 const liveView = document.getElementById('liveView');
@@ -252,15 +251,30 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
         // Draw a bounding box only if the score exceeds the threshold
         if (score > classProbTreshold && score < 100){
 
+            // Get Class Label
+            const classLabel = classLabels[(predictionClasses[i]) - 1];
+
+            // Determine what color should be our boundary box depending on 
+            // the class label.
+            var color = ''
+            if( classLabel == "with_mask"){
+                color = "rgba(10, 190, 25, 0.836)";
+            }else if( classLabel == "without_mask"){
+                color = "rgba(236, 37, 2, 0.836)";
+            }else{
+                color = "rgba(236, 142, 2, 0.836)";
+            }
+
             // Create element that would hold our label and confidence score
             const p = document.createElement('p');
 
             // Write label and confidence score onto created element
-            p.innerText = classLabels[(predictionClasses[i]) - 1] + " - with " +
+            p.innerText = classLabel + " - with " +
             Math.round(score) + " % confidence";
             p.style = 'margin-left: ' + (minX) + 'px; margin-top: ' +
             (minY - 10) + "px; width: " +
-            (width_ - 10) + "px; top: 0; left: 0;";
+            (width_ - 10) + "px; top: 0; left: 0;" + 
+            'background-color: ' + color + ';';
 
             // Create element that would hold our bounding box
             const highlighter = document.createElement('div');
@@ -270,7 +284,8 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
             highlighter.style = 'left: ' + minX + 'px; ' +
                 'top: ' + minY + 'px; ' +
                 'width: ' + (width_) + 'px; ' +
-                'height: ' + (height_) + 'px;';
+                'height: ' + (height_) + 'px;' + 
+                'border: 2px solid ' + color +';';
 
             // Append/Push the label and boundary boxes created
             liveView.appendChild(highlighter);
@@ -307,7 +322,7 @@ tf.loadGraphModel(model_url,
             
             // Save the model
             model = loadedModel;
-            
+
             // Make the button no longer Opaque
             webcamButton.classList.remove('invisible');
         }
