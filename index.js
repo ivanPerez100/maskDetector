@@ -11,8 +11,9 @@ var xStart = 0;
 var yStart = 0;
 
 function getUserMediaSupported(){
-    return !!(navigator.mediaDevices && 
-        navigator.mediaDevices.getUserMedia)
+    // return !!(navigator.mediaDevices && 
+    //     navigator.mediaDevices.getUserMedia({audio: false, video: true}))
+    return ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices)
 }
 
 async function getDevices(){
@@ -21,11 +22,11 @@ async function getDevices(){
     // return devices;
 }
 
+console.log(getUserMediaSupported());
 getDevices();
 
 if (getUserMediaSupported()){
     enableWebcamButton.addEventListener('click', enableCam);
-    getDevices();
 }else{
     console.warn('getUserMedia() is not supported by your browser');
     alert("Camera not supported");
