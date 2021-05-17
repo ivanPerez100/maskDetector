@@ -137,12 +137,12 @@ var model = undefined;
 
 console.log("loading model");
 alert("Loading");
-await tf.loadGraphModel(model_url, 
-    {onProgress: p => loadingMessage.innerHTML = 
-        (p * 100) + '% of Model Loaded'}).then( function(loadedModel){
-            alert("done");
-            model = loadedModel;
-            webcamButton.classList.remove('invisible');
-        }
+// await tf.loadGraphModel(model_url, 
+//     {onProgress: p => loadingMessage.innerHTML = 
+//         (p * 100) + '% of Model Loaded'}).then( function(loadedModel){
+//             alert("done");
+//             model = loadedModel;
+//             webcamButton.classList.remove('invisible');
+//         }
 
-);
+// );
