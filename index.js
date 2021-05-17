@@ -18,7 +18,7 @@ function getUserMediaSupported(){
 
 async function getDevices(){
     const devices =  await navigator.mediaDevices.enumerateDevices();
-    alert(devices);
+    // alert(devices);
     // return devices;
 }
 
@@ -134,11 +134,11 @@ const model_url = './maskDetector_tfjs/model.json';
 var model = undefined;
 
 console.log("loading model");
-
+alert("Loading");
 await tf.loadGraphModel(model_url, 
     {onProgress: p => loadingMessage.innerHTML = 
         (p * 100) + '% of Model Loaded'}).then( function(loadedModel){
-            console.log("done");
+            alert("done");
             model = loadedModel;
             webcamButton.classList.remove('invisible');
         }
