@@ -10,6 +10,8 @@ var vidHeight = 0;
 var xStart = 0;
 var yStart = 0;
 
+alert("Start");
+
 function getUserMediaSupported(){
     // return !!(navigator.mediaDevices && 
     //     navigator.mediaDevices.getUserMedia({audio: false, video: true}))
