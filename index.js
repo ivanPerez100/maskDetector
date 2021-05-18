@@ -16,6 +16,7 @@ const liveView = document.getElementById('liveView');
 const demosSection = document.getElementById('demos');
 const enableWebcamButton = document.getElementById("webcamButton");
 const loadingMessage = document.getElementById("progress");
+const videoSource = document.getElementById("videoSource");
 
 // Get size of our current webpage. Later used to calculate where our bounding 
 // box should be positioned later on when making predictions
@@ -58,7 +59,7 @@ function getUserMediaSupported(){
 }
 
 /**
- * Functions getDevices
+ * Functions getCameraSelection
  * 
  * @param {object} devicesInfo List returned by builtin .enumerateDevices()
  * 
@@ -77,11 +78,24 @@ function getUserMediaSupported(){
  * 
  * 
  */
-async function getDevices(devicesInfo){
-    const devices =  await navigator.mediaDevices.enumerateDevices();
-    // return devices;
-}
 
+const getCameraSelection = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+
+    for( var i = 0; i !== devices.length; ++i){
+        var deviceInfo = devices[i];
+        const option = document.createElement('option');
+        option.value = deviceInfo.deviceId;
+        
+        if( deviceInfo.kind == 'videoinput'){
+            option.text = deviceInfo.label || 'Camera' + 
+            (videoSource.length + 1);
+            videoSource.appendChild(option);
+        }
+    }
+};
+
+getCameraSelection();
 
 /**
  * Funciton: enableCam
