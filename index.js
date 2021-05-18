@@ -81,8 +81,8 @@ function getUserMediaSupported(){
 
 const getCameraSelection = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    
-    for( var i = 0; i <= devices.length; ++i){
+    alert(devices);
+    for( var i = 0; i < devices.length; ++i){
         var deviceInfo = devices[i];
         const option = document.createElement('option');
         option.value = deviceInfo.deviceId;
