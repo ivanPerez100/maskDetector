@@ -18,6 +18,7 @@ const enableWebcamButton = document.getElementById("webcamButton");
 const loadingMessage = document.getElementById("progress");
 const select = document.getElementById("videoSource");
 const camSwitch = document.getElementById("camSwitch");
+var constraints = {};
 
 // Get size of our current webpage. Later used to calculate where our bounding 
 // box should be positioned later on when making predictions
@@ -60,7 +61,7 @@ function getUserMediaSupported(){
 }
 
 /**
- * Functions getCameraSelection
+ * Functions getDevices
  * 
  * @param {object} devicesInfo List returned by builtin .enumerateDevices()
  * 
@@ -79,7 +80,7 @@ function getUserMediaSupported(){
  * 
  * 
  */
-function gotDevices(mediaDevices){
+function getDevices(mediaDevices){
     select.innerHTML = '';
     select.appendChild(document.createElement("option"));
 
@@ -141,16 +142,23 @@ function enableCam(event){
         return;
     }
 
+    //Check if Camera was selected
+    console.log(constraints.video);
+    if(!constraints.video){
+        alert("Please Select a Camera");
+        return;
+    }
+    
     // Remove button and progress message as they are no longer needed
     event.target.classList.add('removed');
     loadingMessage.classList.add('removed');
 
     // Add constraint that ask for only video input
-    const constraints = {
-        video: {
-            facingMode: 'user'
-        }
-    };
+    // const constraints = {
+    //     video: {
+    //         facingMode: 'user'
+    //     }
+    // };
 
 
     // Get device that follow our constraints, which in this case, it's whatever
@@ -175,7 +183,8 @@ function enableCam(event){
             $video.play();
             $video.addEventListener('loadeddata', predictWebcam);
         }
-    });
+        return navigator.mediaDevices.enumerateDevices();
+    }).then(getDevices);
 }
 
 /**
@@ -361,4 +370,23 @@ tf.loadGraphModel(model_url,
 
 );
 
-navigator.mediaDevices.enumerateDevices().then(gotDevices);
+camSwitch.addEventListener('click', event => {
+    
+    const videoConstraints = {};
+    
+    
+    if (select.value === ''){
+        videoConstraints.facingMode = 'user';
+    } else{
+        videoConstraints.deviceId = { exact: select.value};
+    }
+    
+    constraints.video = videoConstraints;
+    constraints.audio = false;
+
+    console.log(constraints);
+});
+
+
+
+navigator.mediaDevices.enumerateDevices().then(getDevices);
