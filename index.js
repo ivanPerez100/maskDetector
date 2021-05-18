@@ -88,6 +88,7 @@ const getCameraSelection = async () => {
         option.value = deviceInfo.deviceId;
         
         if( deviceInfo.kind == 'videoinput'){
+            alert(deviceInfo);
             option.text = deviceInfo.label || 'Camera' + 
             (videoSource.length + 1);
             videoSource.appendChild(option);
