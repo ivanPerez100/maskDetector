@@ -81,12 +81,12 @@ function getUserMediaSupported(){
 
 const getCameraSelection = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    alert(devices);
+    
     for( var i = 0; i < devices.length; ++i){
         var deviceInfo = devices[i];
         const option = document.createElement('option');
         option.value = deviceInfo.deviceId;
-        alert(deviceInfo.kind);
+        
         if( deviceInfo.kind == 'videoinput'){
             option.text = deviceInfo.label || 'Camera' + 
             (videoSource.length + 1);
@@ -131,7 +131,9 @@ function enableCam(event){
 
     // Add constraint that ask for only video input
     const constraints = {
-        video: true
+        video: {
+            facingMode: 'environment'
+        }
     };
 
 
