@@ -16,7 +16,8 @@ const liveView = document.getElementById('liveView');
 const demosSection = document.getElementById('demos');
 const enableWebcamButton = document.getElementById("webcamButton");
 const loadingMessage = document.getElementById("progress");
-const videoSource = document.getElementById("videoSource");
+const select = document.getElementById("videoSource");
+const camSwitch = document.getElementById("camSwitch");
 
 // Get size of our current webpage. Later used to calculate where our bounding 
 // box should be positioned later on when making predictions
@@ -78,24 +79,39 @@ function getUserMediaSupported(){
  * 
  * 
  */
+function gotDevices(mediaDevices){
+    select.innerHTML = '';
+    select.appendChild(document.createElement("option"));
 
-const getCameraSelection = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    
-    for( var i = 0; i < devices.length; ++i){
-        var deviceInfo = devices[i];
-        const option = document.createElement('option');
-        option.value = deviceInfo.deviceId;
-        
-        if( deviceInfo.kind == 'videoinput'){
-            option.text = deviceInfo.label || 'Camera' + 
-            (videoSource.length + 1);
-            videoSource.appendChild(option);
+    let count = 1;
+    mediaDevices.forEach(mediaDevice => {
+        if( mediaDevice.kind === 'videoinput'){
+            const option = document.createElement('option');
+            option.value = mediaDevice.deviceId;
+            const label = mediaDevice.label || `Camera ${count++}`;
+            const textNode = document.createTextNode(label);
+            option.appendChild(textNode);
+            select.appendChild(option);
         }
-    }
-};
+    });
+}
 
-getCameraSelection();
+// const getCameraSelection = async () => {
+//     const devices = await navigator.mediaDevices.enumerateDevices();
+    
+//     for( var i = 0; i < devices.length; ++i){
+//         var deviceInfo = devices[i];
+//         const option = document.createElement('option');
+//         option.value = deviceInfo.deviceId;
+        
+//         if( deviceInfo.kind == 'videoinput'){
+//             option.text = deviceInfo.label || 'Camera' + 
+//             (videoSource.length + 1);
+//             videoSource.appendChild(option);
+//         }
+//     }
+// };
+
 
 /**
  * Funciton: enableCam
@@ -132,7 +148,7 @@ function enableCam(event){
     // Add constraint that ask for only video input
     const constraints = {
         video: {
-            facingMode: 'environment'
+            facingMode: 'user'
         }
     };
 
@@ -344,3 +360,5 @@ tf.loadGraphModel(model_url,
         }
 
 );
+
+navigator.mediaDevices.enumerateDevices().then(gotDevices);
