@@ -143,7 +143,7 @@ function enableCam(event){
     }
 
     const videoConstraints = {};
-    
+
     if (select.value === ''){
         videoConstraints.facingMode = 'user';
     } else{
@@ -315,7 +315,7 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
                 color = "rgba(10, 190, 25, 0.836)";
             }else if( classLabel == "without_mask"){
                 color = "rgba(236, 37, 2, 0.836)";
-            }else{
+            }else if ( classLabel == "mask_worn_incorrect"){
                 color = "rgba(236, 142, 2, 0.836)";
             }
 
