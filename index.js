@@ -82,13 +82,12 @@ function getUserMediaSupported(){
 const getCameraSelection = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
 
-    for( var i = 0; i !== devices.length; ++i){
+    for( var i = 0; i < devices.length; ++i){
         var deviceInfo = devices[i];
         const option = document.createElement('option');
         option.value = deviceInfo.deviceId;
-        
+        alert(deviceInfo);
         if( deviceInfo.kind == 'videoinput'){
-            alert(deviceInfo);
             option.text = deviceInfo.label || 'Camera' + 
             (videoSource.length + 1);
             videoSource.appendChild(option);
