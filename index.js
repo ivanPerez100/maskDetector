@@ -148,7 +148,21 @@ function enableCam(event){
         alert("Please Select a Camera");
         return;
     }
+
+    const videoConstraints = {};
     
+    
+    if (select.value === ''){
+        videoConstraints.facingMode = 'user';
+    } else{
+        videoConstraints.deviceId = { exact: select.value};
+    }
+    
+    constraints.video = videoConstraints;
+    constraints.audio = false;
+
+    console.log(constraints);
+
     // Remove button and progress message as they are no longer needed
     event.target.classList.add('removed');
     loadingMessage.classList.add('removed');
@@ -183,8 +197,8 @@ function enableCam(event){
             $video.play();
             $video.addEventListener('loadeddata', predictWebcam);
         }
-        return navigator.mediaDevices.enumerateDevices();
-    }).then(getDevices);
+        // return navigator.mediaDevices.enumerateDevices();
+    });
 }
 
 /**
