@@ -17,7 +17,7 @@ const demosSection = document.getElementById('demos');
 const enableWebcamButton = document.getElementById("webcamButton");
 const loadingMessage = document.getElementById("progress");
 const select = document.getElementById("videoSource");
-const camSwitch = document.getElementById("camSwitch");
+// const camSwitch = document.getElementById("camSwitch");
 var constraints = {};
 
 // Get size of our current webpage. Later used to calculate where our bounding 
@@ -142,15 +142,7 @@ function enableCam(event){
         return;
     }
 
-    //Check if Camera was selected
-    console.log(constraints.video);
-    if(!constraints.video){
-        alert("Please Select a Camera");
-        return;
-    }
-
     const videoConstraints = {};
-    
     
     if (select.value === ''){
         videoConstraints.facingMode = 'user';
@@ -161,10 +153,17 @@ function enableCam(event){
     constraints.video = videoConstraints;
     constraints.audio = false;
 
+    //Check if Camera was selected
+    console.log(constraints.video);
+    if(!constraints.video){
+        alert("Please Select a Camera");
+        return;
+    }
+
     console.log(constraints);
 
     // Remove button and progress message as they are no longer needed
-    event.target.classList.add('removed');
+    // event.target.classList.add('removed');
     loadingMessage.classList.add('removed');
 
     // Add constraint that ask for only video input
@@ -384,22 +383,22 @@ tf.loadGraphModel(model_url,
 
 );
 
-camSwitch.addEventListener('click', event => {
+// camSwitch.addEventListener('click', event => {
     
-    const videoConstraints = {};
+//     const videoConstraints = {};
     
     
-    if (select.value === ''){
-        videoConstraints.facingMode = 'user';
-    } else{
-        videoConstraints.deviceId = { exact: select.value};
-    }
+//     if (select.value === ''){
+//         videoConstraints.facingMode = 'user';
+//     } else{
+//         videoConstraints.deviceId = { exact: select.value};
+//     }
     
-    constraints.video = videoConstraints;
-    constraints.audio = false;
+//     constraints.video = videoConstraints;
+//     constraints.audio = false;
 
-    console.log(constraints);
-});
+//     console.log(constraints);
+// });
 
 
 
