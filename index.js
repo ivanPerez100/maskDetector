@@ -290,7 +290,7 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
 
             // Get Class Label
             const classLabel = classLabels[(predictionClasses[i]) - 1];
-            alert(classLabel + (predictionClasses[i]));
+            alert(predictionClasses[i]);
 
             // Determine what color should be our boundary box depending on 
             // the class label.
