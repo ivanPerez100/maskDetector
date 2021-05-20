@@ -97,23 +97,6 @@ function getDevices(mediaDevices){
     });
 }
 
-// const getCameraSelection = async () => {
-//     const devices = await navigator.mediaDevices.enumerateDevices();
-    
-//     for( var i = 0; i < devices.length; ++i){
-//         var deviceInfo = devices[i];
-//         const option = document.createElement('option');
-//         option.value = deviceInfo.deviceId;
-        
-//         if( deviceInfo.kind == 'videoinput'){
-//             option.text = deviceInfo.label || 'Camera' + 
-//             (videoSource.length + 1);
-//             videoSource.appendChild(option);
-//         }
-//     }
-// };
-
-
 /**
  * Funciton: enableCam
  * 
@@ -307,6 +290,7 @@ function drawPredictionBoxes(predictionBoxes, predictionClasses, predictionScore
 
             // Get Class Label
             const classLabel = classLabels[(predictionClasses[i]) - 1];
+            alert(classLabel);
 
             // Determine what color should be our boundary box depending on 
             // the class label.
@@ -382,24 +366,5 @@ tf.loadGraphModel(model_url,
         }
 
 );
-
-// camSwitch.addEventListener('click', event => {
-    
-//     const videoConstraints = {};
-    
-    
-//     if (select.value === ''){
-//         videoConstraints.facingMode = 'user';
-//     } else{
-//         videoConstraints.deviceId = { exact: select.value};
-//     }
-    
-//     constraints.video = videoConstraints;
-//     constraints.audio = false;
-
-//     console.log(constraints);
-// });
-
-
 
 navigator.mediaDevices.enumerateDevices().then(getDevices);
